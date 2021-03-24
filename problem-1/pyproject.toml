@@ -1,0 +1,25 @@
+[tool.poetry]
+authors = ["jjlorenzo <jjlorenzo@users.noreply.github.com>"]
+classifiers = ["Private :: ProjectWasteNot"]
+description = ""
+name = "cprofile"
+readme = "README.md"
+version = "0.1.0"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+pyls-isort = "^0.2.0"
+pyls-mypy = "^0.1.8"
+pytest = "^5.2"
+pytest-testmon = "^1.1.0"
+pytest-watch = "^4.2.0"
+python-language-server = {extras = ["flake8", "mccabe", "pycodestyle", "yapf"], version = "^0.36.2"}
+
+[tool.poetry.scripts]
+cprofile = "cprofile.__main__:entry_point"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]

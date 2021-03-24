@@ -1,0 +1,3 @@
+marketplace_catalog
+marketplace_buyer
+marketplace_product
