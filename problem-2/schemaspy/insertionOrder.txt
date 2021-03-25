@@ -1,3 +1,4 @@
-marketplace_catalog
-marketplace_buyer
-marketplace_product
+catalog
+product
+buyer
+product_catalog

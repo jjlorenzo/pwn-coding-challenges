@@ -4,7 +4,6 @@
 
 -- Dumped from database version 13.2
 -- Dumped by pg_dump version 13.2
--- Dumped with pg_dump --create --no-owner --schema-only --table='marketplace_*' --format=p marketplace > database-pgdump.sql
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -42,10 +41,10 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: marketplace_buyer; Type: TABLE; Schema: public; Owner: -
+-- Name: buyer; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.marketplace_buyer (
+CREATE TABLE public.buyer (
     id integer NOT NULL,
     name character varying(120) NOT NULL,
     catalog_id integer NOT NULL
@@ -53,10 +52,10 @@ CREATE TABLE public.marketplace_buyer (
 
 
 --
--- Name: marketplace_buyer_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: buyer_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.marketplace_buyer_id_seq
+CREATE SEQUENCE public.buyer_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -66,27 +65,27 @@ CREATE SEQUENCE public.marketplace_buyer_id_seq
 
 
 --
--- Name: marketplace_buyer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: buyer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.marketplace_buyer_id_seq OWNED BY public.marketplace_buyer.id;
+ALTER SEQUENCE public.buyer_id_seq OWNED BY public.buyer.id;
 
 
 --
--- Name: marketplace_catalog; Type: TABLE; Schema: public; Owner: -
+-- Name: catalog; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.marketplace_catalog (
+CREATE TABLE public.catalog (
     id integer NOT NULL,
     name character varying(120) NOT NULL
 );
 
 
 --
--- Name: marketplace_catalog_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: catalog_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.marketplace_catalog_id_seq
+CREATE SEQUENCE public.catalog_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -96,30 +95,40 @@ CREATE SEQUENCE public.marketplace_catalog_id_seq
 
 
 --
--- Name: marketplace_catalog_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: catalog_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.marketplace_catalog_id_seq OWNED BY public.marketplace_catalog.id;
+ALTER SEQUENCE public.catalog_id_seq OWNED BY public.catalog.id;
 
 
 --
--- Name: marketplace_product; Type: TABLE; Schema: public; Owner: -
+-- Name: product; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.marketplace_product (
+CREATE TABLE public.product (
     id integer NOT NULL,
     name character varying(120) NOT NULL,
     visibility character varying(30) NOT NULL,
-    price numeric(10,2) NOT NULL,
-    catalog_id integer
+    price numeric(10,2) NOT NULL
 );
 
 
 --
--- Name: marketplace_product_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: product_catalog; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.marketplace_product_id_seq
+CREATE TABLE public.product_catalog (
+    id integer NOT NULL,
+    product_id integer NOT NULL,
+    catalog_id integer NOT NULL
+);
+
+
+--
+-- Name: product_catalog_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.product_catalog_id_seq
     AS integer
     START WITH 1
     INCREMENT BY 1
@@ -129,87 +138,146 @@ CREATE SEQUENCE public.marketplace_product_id_seq
 
 
 --
--- Name: marketplace_product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: product_catalog_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.marketplace_product_id_seq OWNED BY public.marketplace_product.id;
-
-
---
--- Name: marketplace_buyer id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.marketplace_buyer ALTER COLUMN id SET DEFAULT nextval('public.marketplace_buyer_id_seq'::regclass);
+ALTER SEQUENCE public.product_catalog_id_seq OWNED BY public.product_catalog.id;
 
 
 --
--- Name: marketplace_catalog id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: product_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.marketplace_catalog ALTER COLUMN id SET DEFAULT nextval('public.marketplace_catalog_id_seq'::regclass);
-
-
---
--- Name: marketplace_product id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.marketplace_product ALTER COLUMN id SET DEFAULT nextval('public.marketplace_product_id_seq'::regclass);
-
-
---
--- Name: marketplace_buyer marketplace_buyer_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.marketplace_buyer
-    ADD CONSTRAINT marketplace_buyer_pkey PRIMARY KEY (id);
+CREATE SEQUENCE public.product_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
 --
--- Name: marketplace_catalog marketplace_catalog_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.marketplace_catalog
-    ADD CONSTRAINT marketplace_catalog_pkey PRIMARY KEY (id);
-
-
---
--- Name: marketplace_product marketplace_product_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.marketplace_product
-    ADD CONSTRAINT marketplace_product_pkey PRIMARY KEY (id);
+ALTER SEQUENCE public.product_id_seq OWNED BY public.product.id;
 
 
 --
--- Name: marketplace_buyer_catalog_id_dab292f7; Type: INDEX; Schema: public; Owner: -
+-- Name: buyer id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-CREATE INDEX marketplace_buyer_catalog_id_dab292f7 ON public.marketplace_buyer USING btree (catalog_id);
-
-
---
--- Name: marketplace_product_catalog_id_c9e25627; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX marketplace_product_catalog_id_c9e25627 ON public.marketplace_product USING btree (catalog_id);
+ALTER TABLE ONLY public.buyer ALTER COLUMN id SET DEFAULT nextval('public.buyer_id_seq'::regclass);
 
 
 --
--- Name: marketplace_buyer marketplace_buyer_catalog_id_dab292f7_fk_marketplace_catalog_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: catalog id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.marketplace_buyer
-    ADD CONSTRAINT marketplace_buyer_catalog_id_dab292f7_fk_marketplace_catalog_id FOREIGN KEY (catalog_id) REFERENCES public.marketplace_catalog(id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.catalog ALTER COLUMN id SET DEFAULT nextval('public.catalog_id_seq'::regclass);
 
 
 --
--- Name: marketplace_product marketplace_product_catalog_id_c9e25627_fk_marketpla; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: product id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.marketplace_product
-    ADD CONSTRAINT marketplace_product_catalog_id_c9e25627_fk_marketpla FOREIGN KEY (catalog_id) REFERENCES public.marketplace_catalog(id) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.product ALTER COLUMN id SET DEFAULT nextval('public.product_id_seq'::regclass);
+
+
+--
+-- Name: product_catalog id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.product_catalog ALTER COLUMN id SET DEFAULT nextval('public.product_catalog_id_seq'::regclass);
+
+
+--
+-- Name: buyer buyer_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.buyer
+    ADD CONSTRAINT buyer_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: catalog catalog_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.catalog
+    ADD CONSTRAINT catalog_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product_catalog product_catalog_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.product_catalog
+    ADD CONSTRAINT product_catalog_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: product_catalog product_catalog_product_id_catalog_id_ab66c96e_uniq; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.product_catalog
+    ADD CONSTRAINT product_catalog_product_id_catalog_id_ab66c96e_uniq UNIQUE (product_id, catalog_id);
+
+
+--
+-- Name: product product_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.product
+    ADD CONSTRAINT product_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: buyer_catalog_id_85016274; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX buyer_catalog_id_85016274 ON public.buyer USING btree (catalog_id);
+
+
+--
+-- Name: product_catalog_catalog_id_033f0463; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX product_catalog_catalog_id_033f0463 ON public.product_catalog USING btree (catalog_id);
+
+
+--
+-- Name: product_catalog_product_id_1dbe703d; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX product_catalog_product_id_1dbe703d ON public.product_catalog USING btree (product_id);
+
+
+--
+-- Name: buyer buyer_catalog_id_85016274_fk_catalog_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.buyer
+    ADD CONSTRAINT buyer_catalog_id_85016274_fk_catalog_id FOREIGN KEY (catalog_id) REFERENCES public.catalog(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: product_catalog product_catalog_catalog_id_033f0463_fk_catalog_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.product_catalog
+    ADD CONSTRAINT product_catalog_catalog_id_033f0463_fk_catalog_id FOREIGN KEY (catalog_id) REFERENCES public.catalog(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: product_catalog product_catalog_product_id_1dbe703d_fk_product_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.product_catalog
+    ADD CONSTRAINT product_catalog_product_id_1dbe703d_fk_product_id FOREIGN KEY (product_id) REFERENCES public.product(id) DEFERRABLE INITIALLY DEFERRED;
 
 
 --
 -- PostgreSQL database dump complete
 --
+

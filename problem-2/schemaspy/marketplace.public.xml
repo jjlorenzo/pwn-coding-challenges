@@ -7,52 +7,72 @@
       <sequence increment="1" name="auth_user_groups_id_seq" startValue="1"/>
       <sequence increment="1" name="auth_user_id_seq" startValue="1"/>
       <sequence increment="1" name="auth_user_user_permissions_id_seq" startValue="1"/>
+      <sequence increment="1" name="buyer_id_seq" startValue="1"/>
+      <sequence increment="1" name="catalog_id_seq" startValue="1"/>
       <sequence increment="1" name="django_admin_log_id_seq" startValue="1"/>
       <sequence increment="1" name="django_content_type_id_seq" startValue="1"/>
       <sequence increment="1" name="django_migrations_id_seq" startValue="1"/>
-      <sequence increment="1" name="marketplace_buyer_id_seq" startValue="1"/>
-      <sequence increment="1" name="marketplace_catalog_id_seq" startValue="1"/>
-      <sequence increment="1" name="marketplace_product_id_seq" startValue="1"/>
+      <sequence increment="1" name="product_catalog_id_seq" startValue="1"/>
+      <sequence increment="1" name="product_id_seq" startValue="1"/>
    </sequences>
    <tables>
-      <table name="marketplace_buyer" numRows="2" remarks="" schema="public" type="TABLE">
-         <column autoUpdated="true" defaultValue="nextval('marketplace_buyer_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+      <table name="buyer" numRows="3" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('buyer_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="" size="120" type="varchar" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="catalog_id" nullable="false" remarks="" size="10" type="int4" typeCode="4">
-            <parent column="id" foreignKey="marketplace_buyer_catalog_id_dab292f7_fk_marketplace_catalog_id" implied="false" onDeleteCascade="false" schema="public" table="marketplace_catalog"/>
+            <parent column="id" foreignKey="buyer_catalog_id_85016274_fk_catalog_id" implied="false" onDeleteCascade="false" schema="public" table="catalog"/>
          </column>
          <primaryKey column="id" sequenceNumberInPK="1"/>
-         <index name="marketplace_buyer_pkey" unique="true">
+         <index name="buyer_pkey" unique="true">
             <column ascending="true" name="id"/>
          </index>
-         <index name="marketplace_buyer_catalog_id_dab292f7" unique="false">
+         <index name="buyer_catalog_id_85016274" unique="false">
             <column ascending="true" name="catalog_id"/>
          </index>
       </table>
-      <table name="marketplace_catalog" numRows="2" remarks="" schema="public" type="TABLE">
-         <column autoUpdated="true" defaultValue="nextval('marketplace_catalog_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
-            <child column="catalog_id" foreignKey="marketplace_buyer_catalog_id_dab292f7_fk_marketplace_catalog_id" implied="false" onDeleteCascade="false" schema="public" table="marketplace_buyer"/>
-            <child column="catalog_id" foreignKey="marketplace_product_catalog_id_c9e25627_fk_marketpla" implied="false" onDeleteCascade="false" schema="public" table="marketplace_product"/>
+      <table name="catalog" numRows="3" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('catalog_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
+            <child column="catalog_id" foreignKey="buyer_catalog_id_85016274_fk_catalog_id" implied="false" onDeleteCascade="false" schema="public" table="buyer"/>
+            <child column="catalog_id" foreignKey="product_catalog_catalog_id_033f0463_fk_catalog_id" implied="false" onDeleteCascade="false" schema="public" table="product_catalog"/>
          </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="" size="120" type="varchar" typeCode="12"/>
          <primaryKey column="id" sequenceNumberInPK="1"/>
-         <index name="marketplace_catalog_pkey" unique="true">
+         <index name="catalog_pkey" unique="true">
             <column ascending="true" name="id"/>
          </index>
       </table>
-      <table name="marketplace_product" numRows="4" remarks="" schema="public" type="TABLE">
-         <column autoUpdated="true" defaultValue="nextval('marketplace_product_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+      <table name="product" numRows="6" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('product_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
+            <child column="product_id" foreignKey="product_catalog_product_id_1dbe703d_fk_product_id" implied="false" onDeleteCascade="false" schema="public" table="product_catalog"/>
+         </column>
          <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="" size="120" type="varchar" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="visibility" nullable="false" remarks="" size="30" type="varchar" typeCode="12"/>
          <column autoUpdated="false" defaultValue="null" digits="2" id="3" name="price" nullable="false" remarks="" size="10" type="numeric" typeCode="2"/>
-         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="catalog_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
-            <parent column="id" foreignKey="marketplace_product_catalog_id_c9e25627_fk_marketpla" implied="false" onDeleteCascade="false" schema="public" table="marketplace_catalog"/>
-         </column>
          <primaryKey column="id" sequenceNumberInPK="1"/>
-         <index name="marketplace_product_pkey" unique="true">
+         <index name="product_pkey" unique="true">
             <column ascending="true" name="id"/>
          </index>
-         <index name="marketplace_product_catalog_id_c9e25627" unique="false">
+      </table>
+      <table name="product_catalog" numRows="6" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('product_catalog_id_seq'::regclass)" digits="0" id="0" name="id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="product_id" nullable="false" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="product_catalog_product_id_1dbe703d_fk_product_id" implied="false" onDeleteCascade="false" schema="public" table="product"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="catalog_id" nullable="false" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="id" foreignKey="product_catalog_catalog_id_033f0463_fk_catalog_id" implied="false" onDeleteCascade="false" schema="public" table="catalog"/>
+         </column>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="product_catalog_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+         <index name="product_catalog_catalog_id_033f0463" unique="false">
+            <column ascending="true" name="catalog_id"/>
+         </index>
+         <index name="product_catalog_product_id_1dbe703d" unique="false">
+            <column ascending="true" name="product_id"/>
+         </index>
+         <index name="product_catalog_product_id_catalog_id_ab66c96e_uniq" unique="true">
+            <column ascending="true" name="product_id"/>
             <column ascending="true" name="catalog_id"/>
          </index>
       </table>
