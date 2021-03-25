@@ -78,3 +78,4 @@ I have included the source and binary build in the `dist` folder to ease the tes
 
 - The conversion from a duration `timedelta` to a friendly `str` representation is prone to floating point arithmetic errors. Usually the `decimal` module is used when an exact decimal representation is required, but I don't feel it was required for this exercise.
 
+- For long running tasks, probably makes more sense to use `time.monotonic()`  instead of `datetime.now()` since the first is not affected by system clock updates.
